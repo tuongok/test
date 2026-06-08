@@ -92,9 +92,7 @@ public class OrangeHRMLoginTest {
         // Kiểm tra xem hệ thống có hiển thị thông báo lỗi "Invalid credentials" hay không
         WebElement errorMessage = driver.findElement(By.xpath("//p[contains(@class, 'oxd-alert-content-text')]"));
         Assert.assertTrue(errorMessage.isDisplayed(), "Không thấy thông báo lỗi hiển thị!");
-        
-        // Cố tình sửa chữ "Invalid credentials" thành "Sai mật khẩu rồi" để Github báo LỖI (Đỏ)
-        Assert.assertEquals(errorMessage.getText(), "Sai mật khẩu rồi", "Nội dung thông báo lỗi không đúng!");
+        Assert.assertEquals(errorMessage.getText(), "Invalid credentials", "Nội dung thông báo lỗi không đúng!");
     }
 
     @AfterMethod
