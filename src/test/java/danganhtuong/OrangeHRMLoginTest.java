@@ -42,32 +42,54 @@ public class OrangeHRMLoginTest {
     }
 
     @Test
-    public void testLogin() {
-        System.out.println("Running Test: testLogin");
+    public void testLoginSuccess() {
+        System.out.println("Running Test: testLoginSuccess");
         driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 
         WebElement usernameField = driver.findElement(By.name("username"));
         usernameField.sendKeys("Admin");
 
-        // Bạn có thể tự sửa mật khẩu ở dòng này để test:
-        // Đúng: "admin123" -> Github báo Xanh (Success)
-        // Sai: "mat_khau_sai" -> Github báo Đỏ (Fail)
+        // Nhập ĐÚNG mật khẩu
         WebElement passwordField = driver.findElement(By.name("password"));
-        passwordField.sendKeys("admin1230");
+        passwordField.sendKeys("admin123");
 
         WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit']"));
         loginButton.click();
 
-        // Đợi một chút để URL thay đổi sau khi đăng nhập
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        // Kiểm tra xem URL có chứa chữ 'dashboard' không, chứng tỏ đăng nhập thành công
         boolean isDashboard = driver.getCurrentUrl().contains("dashboard");
-        Assert.assertTrue(isDashboard, "Đăng nhập thất bại (có thể do sai mật khẩu)! URL hiện tại: " + driver.getCurrentUrl());
+        Assert.assertTrue(isDashboard, "Đăng nhập ĐÚNG nhưng thất bại! URL hiện tại: " + driver.getCurrentUrl());
+    }
+
+    @Test
+    public void testLoginFailure() {
+        System.out.println("Running Test: testLoginFailure");
+        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+
+        WebElement usernameField = driver.findElement(By.name("username"));
+        usernameField.sendKeys("Admin");
+
+        // Nhập SAI mật khẩu
+        WebElement passwordField = driver.findElement(By.name("password"));
+        passwordField.sendKeys("mat_khau_sai_ne");
+
+        WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit']"));
+        loginButton.click();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        WebElement errorMessage = driver.findElement(By.xpath("//p[contains(@class, 'oxd-alert-content-text')]"));
+        Assert.assertTrue(errorMessage.isDisplayed(), "Không thấy thông báo lỗi!");
+        Assert.assertEquals(errorMessage.getText(), "Invalid credentials", "Nội dung báo lỗi không đúng!");
     }
 
     @AfterMethod
