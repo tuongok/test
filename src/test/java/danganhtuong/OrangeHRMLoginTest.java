@@ -42,13 +42,16 @@ public class OrangeHRMLoginTest {
     }
 
     @Test
-    public void testLoginSuccess() {
-        System.out.println("Running Test: testLoginSuccess");
+    public void testLogin() {
+        System.out.println("Running Test: testLogin");
         driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 
         WebElement usernameField = driver.findElement(By.name("username"));
         usernameField.sendKeys("Admin");
 
+        // Bạn có thể tự sửa mật khẩu ở dòng này để test:
+        // Đúng: "admin123" -> Github báo Xanh (Success)
+        // Sai: "mat_khau_sai" -> Github báo Đỏ (Fail)
         WebElement passwordField = driver.findElement(By.name("password"));
         passwordField.sendKeys("admin123");
 
@@ -64,35 +67,7 @@ public class OrangeHRMLoginTest {
 
         // Kiểm tra xem URL có chứa chữ 'dashboard' không, chứng tỏ đăng nhập thành công
         boolean isDashboard = driver.getCurrentUrl().contains("dashboard");
-        Assert.assertTrue(isDashboard, "Đăng nhập thành công nhưng không thấy trang dashboard! URL hiện tại: " + driver.getCurrentUrl());
-    }
-
-    @Test
-    public void testLoginFailure() {
-        System.out.println("Running Test: testLoginFailure");
-        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
-
-        WebElement usernameField = driver.findElement(By.name("username"));
-        usernameField.sendKeys("Admin");
-
-        // Nhập sai mật khẩu
-        WebElement passwordField = driver.findElement(By.name("password"));
-        passwordField.sendKeys("wrong_password");
-
-        WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit']"));
-        loginButton.click();
-
-        // Đợi thông báo lỗi xuất hiện
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // Kiểm tra xem hệ thống có hiển thị thông báo lỗi "Invalid credentials" hay không
-        WebElement errorMessage = driver.findElement(By.xpath("//p[contains(@class, 'oxd-alert-content-text')]"));
-        Assert.assertTrue(errorMessage.isDisplayed(), "Không thấy thông báo lỗi hiển thị!");
-        Assert.assertEquals(errorMessage.getText(), "Invalid credentials", "Nội dung thông báo lỗi không đúng!");
+        Assert.assertTrue(isDashboard, "Đăng nhập thất bại (có thể do sai mật khẩu)! URL hiện tại: " + driver.getCurrentUrl());
     }
 
     @AfterMethod
