@@ -1,16 +1,12 @@
-name: Java CI with Maven and Selenium
+name: Failing Tests CI
 
 on:
   push:
-    branches: [ "master", "main" ]
-  pull_request:
-    branches: [ "master", "main" ]
+    branches: [ "main", "master" ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -27,10 +23,7 @@ jobs:
       with:
         chrome-version: stable
 
-    - name: Check Chrome Version
-      run: chrome --version
-
-    - name: Build and Test with Maven
-      run: mvn -B test --file pom.xml
+    - name: Run Failing Test
+      run: mvn -B test -Dtest=FailTest --file pom.xml
       env:
         CI: true
