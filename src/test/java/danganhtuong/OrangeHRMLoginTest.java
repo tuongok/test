@@ -53,7 +53,7 @@ public class OrangeHRMLoginTest {
         // Đúng: "admin123" -> Github báo Xanh (Success)
         // Sai: "mat_khau_sai" -> Github báo Đỏ (Fail)
         WebElement passwordField = driver.findElement(By.name("password"));
-        passwordField.sendKeys("admin123");
+        passwordField.sendKeys("admin1230");
 
         WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit']"));
         loginButton.click();
