@@ -1,4 +1,4 @@
-name: Test Đăng Nhập Đúng
+name: Kiểm Tra Đăng Nhập
 
 on:
   push:
