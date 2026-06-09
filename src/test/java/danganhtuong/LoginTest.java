@@ -2,7 +2,6 @@ package danganhtuong;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
@@ -12,7 +11,7 @@ import org.testng.annotations.Test;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.time.Duration;
 
-public class FailTest {
+public class LoginTest {
     private WebDriver driver;
 
     @BeforeMethod
@@ -25,6 +24,18 @@ public class FailTest {
         }
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    }
+
+    @Test
+    public void testLoginSuccess() {
+        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        driver.findElement(By.name("username")).sendKeys("Admin");
+        driver.findElement(By.name("password")).sendKeys("admin123");
+        driver.findElement(By.cssSelector("button[type='submit']")).click();
+        
+        try { Thread.sleep(3000); } catch (Exception e) {}
+        
+        Assert.assertTrue(driver.getCurrentUrl().contains("dashboard"), "Đăng nhập phải thành công!");
     }
 
     @Test
