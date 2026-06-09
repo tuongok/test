@@ -44,7 +44,7 @@ public class LoginTest {
         driver.findElement(By.name("username")).sendKeys("Admin");
         
         // Cố tình nhập sai mật khẩu nhưng lại mong đợi đăng nhập thành công
-        driver.findElement(By.name("password")).sendKeys("admin123");
+        driver.findElement(By.name("password")).sendKeys("adminsd");
         driver.findElement(By.cssSelector("button[type='submit']")).click();
         
         try { Thread.sleep(3000); } catch (Exception e) {}
